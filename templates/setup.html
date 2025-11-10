@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup - InboxIQ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Animated background particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 15s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+      33% { transform: translateY(-100px) translateX(100px) rotate(120deg); }
+      66% { transform: translateY(-50px) translateX(-100px) rotate(240deg); }
+    }
+    
+    .config-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 25px;
+      padding: 50px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 650px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.6s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .config-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .logo-icon {
+      font-size: 4rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .config-header h1 {
+      color: #2d3748;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 20px 0 10px;
+      animation: fadeIn 0.8s ease-out 0.2s both;
+    }
+    
+    .config-header p {
+      color: #718096;
+      font-size: 1rem;
+      animation: fadeIn 0.8s ease-out 0.4s both;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+      animation: fadeIn 0.8s ease-out 0.6s both;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .form-label i {
+      color: #667eea;
+    }
+    
+    .form-control {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .form-text {
+      color: #718096;
+      font-size: 0.875rem;
+      margin-top: 8px;
+    }
+    
+    .form-text a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .form-text a:hover {
+      color: #764ba2;
+    }
+    
+    .btn-save {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      padding: 16px 30px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      width: 100%;
+      border-radius: 12px;
+      color: white;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-save::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .btn-save:hover::before {
+      left: 100%;
+    }
+    
+    .btn-save:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-save:active {
+      transform: translateY(-1px);
+    }
+    
+    .alert {
+      border-radius: 15px;
+      border: none;
+      padding: 18px 24px;
+      animation: slideDown 0.5s ease-out;
+      margin-bottom: 25px;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .alert-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+    
+    .alert-danger {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+    }
+    
+    .info-box {
+      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      animation: fadeIn 0.8s ease-out 0.8s both;
+    }
+    
+    .info-box h6 {
+      color: #667eea;
+      font-weight: 600;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .info-box ul {
+      margin-bottom: 0;
+      padding-left: 20px;
+    }
+    
+    .info-box li {
+      font-size: 0.9rem;
+      color: #4a5568;
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    
+    .back-link {
+      text-align: center;
+      margin-top: 25px;
+      animation: fadeIn 0.8s ease-out 1s both;
+    }
+    
+    .back-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .back-link a:hover {
+      color: #764ba2;
+      transform: translateX(-5px);
+    }
+    
+    .input-icon {
+      position: relative;
+    }
+    
+    .input-icon i {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #cbd5e0;
+      transition: color 0.3s ease;
+    }
+    
+    .form-control:focus + i {
+      color: #667eea;
+    }
+    
+    .copyright {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #e2e8f0;
+      color: #718096;
+      font-size: 0.9rem;
+      animation: fadeIn 0.8s ease-out 1.2s both;
+    }
+    
+    .copyright i {
+      color: #e53e3e;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated particles -->
+  <div class="particles">
+    <div class="particle" style="width: 80px; height: 80px; top: 10%; left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="width: 60px; height: 60px; top: 70%; left: 80%; animation-delay: 2s;"></div>
+    <div class="particle" style="width: 100px; height: 100px; top: 50%; left: 5%; animation-delay: 4s;"></div>
+    <div class="particle" style="width: 40px; height: 40px; top: 30%; left: 90%; animation-delay: 1s;"></div>
+    <div class="particle" style="width: 70px; height: 70px; top: 80%; left: 20%; animation-delay: 3s;"></div>
+  </div>
+
+  <div class="config-card">
+    <div class="config-header">
+      <div class="logo-icon">
+        <i class="fas fa-bolt"></i>
+      </div>
+      <h1>InboxIQ Configuration</h1>
+      <p>Set up your API keys to start automating your email support</p>
+    </div>
+
+    {% if message %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <strong>Success!</strong> {{ message }}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+      </div>
+    {% endif %}
+
+    {% if error %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        <strong>Error!</strong> {{ error }}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+      </div>
+    {% endif %}
+
+    <form method="POST" action="/setup">
+      <div class="form-group">
+        <label for="openai_key" class="form-label">
+          <i class="fas fa-key"></i>
+          OpenAI API Key
+        </label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="openai_key" 
+          name="openai_key" 
+          value="{{ config.OPENAI_API_KEY }}"
+          placeholder="sk-proj-..."
+          required>
+        <small class="form-text">
+          Get your key at <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="email_address" class="form-label">
+          <i class="fas fa-envelope"></i>
+          Gmail Address
+        </label>
+        <input 
+          type="email" 
+          class="form-control" 
+          id="email_address" 
+          name="email_address" 
+          value="{{ config.EMAIL_ADDRESS }}"
+          placeholder="your.email@gmail.com"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="email_password" class="form-label">
+          <i class="fas fa-lock"></i>
+          Gmail App Password
+        </label>
+        <input 
+          type="password" 
+          class="form-control" 
+          id="email_password" 
+          name="email_password" 
+          value="{{ config.EMAIL_PASSWORD }}"
+          placeholder="xxxx xxxx xxxx xxxx"
+          required>
+        <small class="form-text">
+          Use an app password, not your main Gmail password
+        </small>
+      </div>
+
+      <div class="info-box">
+        <h6>
+          <i class="fas fa-info-circle"></i>
+          How to get a Gmail App Password?
+        </h6>
+        <ul>
+          <li>Enable 2-factor authentication in your Google account</li>
+          <li>Go to Security → App passwords</li>
+          <li>Create a new password for "Mail"</li>
+          <li>Copy the 16-character password</li>
+          <li>Make sure IMAP is enabled in Gmail settings</li>
+        </ul>
+      </div>
+
+      <button type="submit" class="btn btn-save">
+        <i class="fas fa-save me-2"></i>
+        Save Configuration
+      </button>
+    </form>
+
+    {% if config.OPENAI_API_KEY %}
+      <div class="back-link">
+        <a href="/app">
+          <i class="fas fa-arrow-left"></i>
+          Back to InboxIQ
+        </a>
+      </div>
+    {% endif %}
+    
+    <div class="copyright">
+      Made with <i class="fas fa-heart"></i> by <strong>Abdel Atia</strong> & <strong>Kiril Kotsev</strong>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+Business Information
+	•	Business Name: TechFix IT Repairs
+	•	Location: 123 Main Street, Springfield
+	•	Hours: Mon–Fri (9 AM – 6 PM), Sat (10 AM – 4 PM), Closed Sunday
+	•	Phone: (555) 123-4567
+	•	Email: support@techfix.com
+	•	Website: www.techfix.com
+
+Services
+	•	Laptop Repairs (hardware/software)
+	•	Desktop Repairs
+	•	Smartphone Repairs (screens, batteries, ports)
+	•	Data Recovery (HDD, SSD, external drives)
+	•	Software Installation & Troubleshooting
+	•	Network Setup & Troubleshooting
+	•	Custom PC Builds & Upgrades
+
+Pricing & Policies
+	•	Diagnostic Fee: $30 (waived if repair completed)
+	•	Laptop Screen Replacement: from $120
+	•	Smartphone Battery Replacement: from $60
+	•	Data Recovery: from $150 (depends on complexity)
+	•	Turnaround: 2–3 business days (most cases)
+	•	Express/Same-Day: +$50 surcharge
+	•	Warranty: 90 days on parts & labor
+
+Customer FAQ Guidelines
+	•	iPhone/Android Screens → Yes, repaired in 1–2 hours.
+	•	Dead Laptop / Data Recovery → Possible, depends on drive condition.
+	•	Repair Time → 2–3 business days, faster with express option.
+	•	Appointments → Walk-ins accepted, appointments recommended.
+	•	Parts Quality → OEM or equivalent, 90-day warranty.

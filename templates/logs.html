@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email History - InboxIQ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+    }
+    
+    .main-container {
+      background: #f7fafc;
+      min-height: 100vh;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .navbar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      animation: slideDown 0.6s ease-out;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white !important;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .navbar-brand i {
+      font-size: 2rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .btn-nav {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      padding: 10px 24px;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    
+    .btn-nav:hover {
+      background: white;
+      color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+    }
+    
+    .content-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .page-header {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      animation: slideUp 0.6s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2d3748;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+    
+    .page-title i {
+      color: #667eea;
+    }
+    
+    .page-subtitle {
+      color: #718096;
+      font-size: 1rem;
+    }
+    
+    .table-container {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      animation: slideUp 0.6s ease-out 0.2s both;
+      overflow-x: auto;
+    }
+    
+    .table {
+      margin-bottom: 0;
+    }
+    
+    .table thead {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .table thead th {
+      color: white;
+      font-weight: 600;
+      padding: 18px 15px;
+      border: none;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .table thead th:first-child {
+      border-radius: 12px 0 0 0;
+    }
+    
+    .table thead th:last-child {
+      border-radius: 0 12px 0 0;
+    }
+    
+    .table tbody tr {
+      transition: all 0.3s ease;
+      animation: fadeIn 0.6s ease-out both;
+    }
+    
+    .table tbody tr:nth-child(1) { animation-delay: 0.3s; }
+    .table tbody tr:nth-child(2) { animation-delay: 0.35s; }
+    .table tbody tr:nth-child(3) { animation-delay: 0.4s; }
+    .table tbody tr:nth-child(4) { animation-delay: 0.45s; }
+    .table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+    
+    .table tbody tr:hover {
+      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      transform: scale(1.01);
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+    }
+    
+    .table tbody td {
+      padding: 16px 15px;
+      color: #4a5568;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: middle;
+    }
+    
+    .badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge-auto {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+    
+    .badge-manual {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+    }
+    
+    .badge-skipped {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white;
+    }
+    
+    .badge-error {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+    }
+    
+    .confidence-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .confidence-value {
+      font-weight: 600;
+      color: #2d3748;
+      min-width: 45px;
+    }
+    
+    .confidence-progress {
+      flex: 1;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 100px;
+    }
+    
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #059669);
+      border-radius: 10px;
+      transition: width 0.8s ease-out;
+    }
+    
+    .timestamp {
+      color: #718096;
+      font-size: 0.9rem;
+    }
+    
+    .copyright {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: white;
+      font-size: 0.9rem;
+      animation: fadeIn 1s ease-out 0.8s both;
+    }
+    
+    .copyright i {
+      color: #fca5a5;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    
+    @media (max-width: 768px) {
+      .table {
+        font-size: 0.85rem;
+      }
+      
+      .table thead th,
+      .table tbody td {
+        padding: 12px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <span class="navbar-brand">
+            <i class="fas fa-bolt"></i>
+            InboxIQ
+          </span>
+          <div class="nav-buttons">
+            <a href="/app" class="btn-nav">
+              <i class="fas fa-inbox"></i>
+              Emails
+            </a>
+            <a href="/dashboard" class="btn-nav">
+              <i class="fas fa-chart-bar"></i>
+              Dashboard
+            </a>
+            <a href="/setup" class="btn-nav">
+              <i class="fas fa-cog"></i>
+              Config
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h1 class="page-title">
+          <i class="fas fa-database"></i>
+          Email Processing History
+        </h1>
+        <p class="page-subtitle">Complete log of all processed emails with AI classification results</p>
+      </div>
+
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th><i class="fas fa-clock me-2"></i>Time</th>
+              <th><i class="fas fa-user me-2"></i>From</th>
+              <th><i class="fas fa-envelope me-2"></i>Subject</th>
+              <th><i class="fas fa-tag me-2"></i>Category</th>
+              <th><i class="fas fa-chart-line me-2"></i>Confidence</th>
+              <th><i class="fas fa-bolt me-2"></i>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for l in logs %}
+              <tr>
+                <td class="timestamp">{{ l.timestamp.strftime('%Y-%m-%d %H:%M') if l.timestamp else 'N/A' }}</td>
+                <td>{{ l.sender[:40] }}{% if l.sender|length > 40 %}...{% endif %}</td>
+                <td>{{ l.subject[:50] }}{% if l.subject|length > 50 %}...{% endif %}</td>
+                <td><strong>{{ l.category or 'Unknown' }}</strong></td>
+                <td>
+                  <div class="confidence-bar">
+                    <span class="confidence-value">{{ '%.0f'|format((l.confidence or 0) * 100) }}%</span>
+                    <div class="confidence-progress">
+                      <div class="confidence-fill" style="width: {{ (l.confidence or 0) * 100 }}%"></div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  {% if l.action == 'auto-sent' %}
+                    <span class="badge badge-auto">
+                      <i class="fas fa-robot me-1"></i>Auto-Sent
+                    </span>
+                  {% elif l.action == 'manual-sent' %}
+                    <span class="badge badge-manual">
+                      <i class="fas fa-user-check me-1"></i>Manual-Sent
+                    </span>
+                  {% elif l.action == 'skipped' %}
+                    <span class="badge badge-skipped">
+                      <i class="fas fa-pause me-1"></i>Skipped
+                    </span>
+                  {% else %}
+                    <span class="badge badge-error">
+                      <i class="fas fa-exclamation me-1"></i>{{ l.action or 'Unknown' }}
+                    </span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="copyright">
+        Made with <i class="fas fa-heart"></i> by <strong>Abdel Atia</strong> & <strong>Kiril Kotsev</strong>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

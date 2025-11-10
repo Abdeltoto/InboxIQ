@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Email Support Agent</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 0;
+    }
+    
+    .main-container {
+      background: #f7fafc;
+      min-height: 100vh;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .navbar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      animation: slideDown 0.6s ease-out;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white !important;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .navbar-brand i {
+      font-size: 2rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .btn-config {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      padding: 10px 24px;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-config:hover {
+      background: white;
+      color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+    }
+    
+    .content-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 30px;
+      animation: slideUp 0.6s ease-out 0.2s both;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .email-card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      animation: slideUp 0.6s ease-out both;
+      border: 2px solid transparent;
+    }
+    
+    .email-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
+      border-color: #667eea;
+    }
+    
+    .email-card:nth-child(1) { animation-delay: 0.3s; }
+    .email-card:nth-child(2) { animation-delay: 0.4s; }
+    .email-card:nth-child(3) { animation-delay: 0.5s; }
+    .email-card:nth-child(4) { animation-delay: 0.6s; }
+    .email-card:nth-child(5) { animation-delay: 0.7s; }
+    
+    .card-header {
+      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: none;
+    }
+    
+    .card-header strong {
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .email-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+    
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #4a5568;
+    }
+    
+    .meta-item i {
+      color: #667eea;
+    }
+    
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin: 25px 0 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .section-title i {
+      color: #667eea;
+    }
+    
+    .email-body {
+      background: #f7fafc;
+      padding: 20px;
+      border-radius: 15px;
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      color: #4a5568;
+      line-height: 1.6;
+      border-left: 4px solid #667eea;
+    }
+    
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      border: 2px solid #e2e8f0;
+      border-radius: 15px;
+      padding: 18px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      resize: vertical;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+    
+    .action-buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    
+    .btn-send {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-send::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .btn-send:hover::before {
+      left: 100%;
+    }
+    
+    .btn-send:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+    }
+    
+    .status-message {
+      margin-top: 15px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 500;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .status-message.success {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      color: #065f46;
+    }
+    
+    .no-emails {
+      text-align: center;
+      padding: 80px 20px;
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    .no-emails i {
+      font-size: 5rem;
+      color: #cbd5e0;
+      margin-bottom: 20px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .no-emails h3 {
+      color: #4a5568;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .no-emails p {
+      color: #718096;
+    }
+    
+    .divider {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+      margin: 40px 0;
+    }
+    
+    .logs-section {
+      text-align: center;
+      margin-top: 40px;
+      padding: 30px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      animation: fadeIn 1s ease-out;
+    }
+    
+    .logs-section h3 {
+      color: #2d3748;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    
+    .btn-logs {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-logs:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+      color: white;
+    }
+    
+    /* Loading spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <span class="navbar-brand">
+            <i class="fas fa-bolt"></i>
+            InboxIQ
+          </span>
+          <div class="d-flex gap-2">
+            <a href="/dashboard" class="btn-config">
+              <i class="fas fa-chart-bar"></i>
+              Dashboard
+            </a>
+            <a href="/setup" class="btn-config">
+              <i class="fas fa-cog"></i>
+              Config
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+      {% if emails %}
+        <h2 class="page-title">
+          <i class="fas fa-inbox"></i>
+          Pending Emails ({{ emails|length }})
+        </h2>
+        
+        {% for email in emails %}
+          <div class="email-card">
+            <div class="card-header">
+              <div class="email-meta">
+                <div class="meta-item">
+                  <i class="fas fa-user"></i>
+                  <strong>From:</strong> {{ email.from }}
+                </div>
+                <div class="meta-item">
+                  <i class="fas fa-tag"></i>
+                  <strong>Subject:</strong> {{ email.subject }}
+                </div>
+              </div>
+            </div>
+            
+            <div class="card-body" id="email-{{ loop.index }}">
+              <h6 class="section-title">
+                <i class="fas fa-envelope-open-text"></i>
+                Message:
+              </h6>
+              <div class="email-body">{{ email.body }}</div>
+
+              <h6 class="section-title">
+                <i class="fas fa-reply"></i>
+                Draft Reply:
+              </h6>
+              <input type="hidden" name="to" value="{{ email.from }}">
+              <input type="hidden" name="subject" value="{{ email.subject }}">
+              <input type="hidden" name="body" value="{{ email.body }}">
+              <textarea name="reply" id="reply-{{ loop.index }}">{{ email.reply_text }}</textarea>
+              
+              <div class="action-buttons">
+                <button class="btn-send" onclick="sendEmail({{ loop.index }}, '{{ email.id }}')">
+                  <i class="fas fa-paper-plane"></i>
+                  Send Reply
+                </button>
+              </div>
+              <div class="status" id="status-{{ loop.index }}"></div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-emails">
+          <i class="fas fa-check-circle"></i>
+          <h3>All Caught Up!</h3>
+          <p>No unread emails at the moment. Great work! 🎉</p>
+        </div>
+      {% endif %}
+
+      <!-- Divider -->
+      <div class="divider"></div>
+
+      <!-- Logs Section -->
+      <div class="logs-section">
+        <h3>
+          <i class="fas fa-history"></i>
+          View Email History
+        </h3>
+        <a class="btn-logs" href="/logs">
+          <i class="fas fa-list"></i>
+          View Detailed Logs
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    async function sendEmail(index, emailId) {
+      const reply = document.getElementById(`reply-${index}`).value;
+      const status = document.getElementById(`status-${index}`);
+      const button = document.querySelector(`#email-${index} .btn-send`);
+      
+      // Show loading state
+      button.disabled = true;
+      button.innerHTML = '<span class="spinner"></span> Sending...';
+      status.innerHTML = '';
+      
+      try {
+        const response = await fetch("/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email_id: emailId, reply })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          status.className = 'status-message success';
+          status.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + data.message;
+          button.innerHTML = '<i class="fas fa-check me-2"></i> Sent Successfully!';
+          
+          // Remove card after 2 seconds
+          setTimeout(() => {
+            document.getElementById(`email-${index}`).closest('.email-card').style.animation = 'fadeOut 0.5s ease-out';
+            setTimeout(() => {
+              document.getElementById(`email-${index}`).closest('.email-card').remove();
+              
+              // Check if no more emails
+              if (document.querySelectorAll('.email-card').length === 0) {
+                location.reload();
+              }
+            }, 500);
+          }, 2000);
+        } else {
+          throw new Error(data.error || 'Failed to send email');
+        }
+      } catch (error) {
+        status.className = 'status-message';
+        status.style.background = 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)';
+        status.style.color = '#991b1b';
+        status.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>Error: ' + error.message;
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reply';
+      }
+    }
+    
+    // Add fadeOut animation
+    const style = document.createElement('style');
+    style.textContent = '@keyframes fadeOut { to { opacity: 0; transform: scale(0.9); } }';
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
